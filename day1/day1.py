@@ -1,6 +1,6 @@
 import os
 
-my_input_path = os.path.join(os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__))), 'data.csv')
+my_input_path = os.path.join(os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__))), 'data.txt')
 
 def read_from_csv(my_input_path: str) -> list[list[int]]:
 
@@ -24,6 +24,6 @@ def calories_per_elf(calories_per_item_per_elf: list[list[int]]) -> list[int]:
     return [sum(items_per_elf) for items_per_elf in calories_per_item_per_elf]
 
 
-print(max(calories_per_elf(read_from_csv(my_input_path))))
+print(max(calories_per_elf(read_from_csv(my_input_path)))) #71934
 
-print(sum(sorted(calories_per_elf(read_from_csv(my_input_path)))[:3]))
+print(sum(sorted(calories_per_elf(read_from_csv(my_input_path)))[:3])) #26366

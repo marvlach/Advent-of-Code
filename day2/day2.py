@@ -1,6 +1,6 @@
 import os
 
-my_input_path = os.path.join(os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__))), 'data.csv')
+my_input_path = os.path.join(os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__))), 'data.txt')
 
 def read_from_csv(my_input_path: str) -> list[list[int]]:
 
@@ -34,7 +34,7 @@ opponent, me = read_from_csv(my_input_path)
 # part 1
 my_choice_1 = { 'X': 'R', 'Y': 'P', 'Z': 'S',}
 total_score_1 = 0
-for (o, m) in zip(opponent, me):
+for o, m in zip(opponent, me):
     total_score_1 += outcome_points[outcome[opponent_choice[o]][my_choice_1[m]]] + choice_points[my_choice_1[m]]
 
 print(total_score_1) #13009
