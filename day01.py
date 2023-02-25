@@ -1,16 +1,11 @@
-import os
+from input import input
 
-my_input_path = os.path.join(os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__))), 'data.txt')
-
-def read_from_csv(my_input_path: str) -> list[list[int]]:
+def read_input() -> list[list[int]]:
 
     my_input : list[list[int]] = []
     current_elf : list[int] = []
 
-    with open(my_input_path) as file:
-        lines = [line.rstrip() for line in file ]
-
-    for line in lines:
+    for line in input():
         if (line == ''):
             my_input.append(current_elf)
             current_elf = []
@@ -24,6 +19,6 @@ def calories_per_elf(calories_per_item_per_elf: list[list[int]]) -> list[int]:
     return [sum(items_per_elf) for items_per_elf in calories_per_item_per_elf]
 
 
-print(max(calories_per_elf(read_from_csv(my_input_path)))) #71934
+print(max(calories_per_elf(read_input()))) #71934
 
-print(sum(sorted(calories_per_elf(read_from_csv(my_input_path)))[:3])) #26366
+print(sum(sorted(calories_per_elf(read_input()))[:3])) #26366

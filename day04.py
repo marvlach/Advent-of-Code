@@ -1,23 +1,19 @@
-import os
 import re
+from input import input
 
-my_input_path = os.path.join(os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__))), 'data.txt')
 
-def read_from_csv(my_input_path: str) -> list[list[int]]:
+def read_input() -> list[list[int]]:
 
     sections: list[list[int]] = []
     
-    with open(my_input_path) as file:
-        lines = [line.rstrip() for line in file ]
-
-    for line in lines:
+    for line in input():
         ls = re.split('-|,', line)
         li = [int(i) for i in ls]
         sections.append(li)
     return sections
 
 # given
-sections = read_from_csv(my_input_path)
+sections = read_input()
 
 # part 1
 def full_overlap(l: list[int]) -> bool: # [start0, end0, start1, end1]

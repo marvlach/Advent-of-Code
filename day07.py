@@ -1,4 +1,4 @@
-import os
+from input import input
 from collections.abc import Callable
 
 class TreeNode:
@@ -18,9 +18,8 @@ class TreeNode:
     def set_size(self, size):
         self.size = size
 
-my_input_path = os.path.join(os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__))), 'data.txt')
 
-def read_from_csv(my_input_path: str) -> TreeNode:
+def read_input() -> TreeNode:
 
     root = TreeNode('', is_leaf=False)
     curr = root
@@ -29,10 +28,8 @@ def read_from_csv(my_input_path: str) -> TreeNode:
     curr.add_child(only_child)
     only_child.def_parent(curr)
 
-    with open(my_input_path) as file:
-        lines = [line.rstrip() for line in file ]
-
-    for line in lines:
+    
+    for line in input():
         # on cd we change curr
         if line.startswith("$ cd") :
             tokens = line.split(' ')
@@ -59,7 +56,7 @@ def read_from_csv(my_input_path: str) -> TreeNode:
 
 
 # given
-root = read_from_csv(my_input_path)
+root = read_input()
 
 # this function mutates node object
 def calculate_sizes(node: TreeNode):

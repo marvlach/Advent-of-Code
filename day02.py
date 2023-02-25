@@ -1,16 +1,12 @@
-import os
+from input import input
 
-my_input_path = os.path.join(os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__))), 'data.txt')
-
-def read_from_csv(my_input_path: str) -> list[list[int]]:
+def read_input() -> list[list[int]]:
 
     opponent : list[list[int]] = []
     me : list[list[int]] = []
     
-    with open(my_input_path) as file:
-        lines = [line.rstrip() for line in file ]
-
-    for line in lines:
+    
+    for line in input():
         o, m = line.split()
         opponent += o
         me += m
@@ -29,7 +25,7 @@ outcome_points = { 'W': 6, 'L': 0, 'D': 3,}
 
 opponent_choice = { 'A': 'R', 'B': 'P', 'C': 'S',}
 
-opponent, me = read_from_csv(my_input_path)
+opponent, me = read_input()
 
 # part 1
 my_choice_1 = { 'X': 'R', 'Y': 'P', 'Z': 'S',}

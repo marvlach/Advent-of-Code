@@ -1,17 +1,15 @@
-import os
 import re
+from input import input
 
-my_input_path = os.path.join(os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__))), 'data.txt')
 
-def read_from_csv(my_input_path: str) -> tuple[dict[int, list[str]], list[tuple[int]]]:
+def read_input() -> tuple[dict[int, list[str]], list[tuple[int]]]:
 
     stack_dict_raw : dict[tuple, list[str]] = {}
     stack_dict : dict[int, list[str]] = {}
     instructions : list[tuple[int]]= []
-    with open(my_input_path) as file:
-        lines = [line.rstrip() for line in file ]
+    
     reg = r"\[[A-Z]\]"
-    for line in lines:
+    for line in input():
         
         for m in re.finditer(reg, line):
             if m.span() in stack_dict_raw:
@@ -29,7 +27,7 @@ def read_from_csv(my_input_path: str) -> tuple[dict[int, list[str]], list[tuple[
     return stack_dict, instructions
 
 # given
-stacks, instructions = read_from_csv(my_input_path)
+stacks, instructions = read_input()
 
 # part 1
 for num, fromStack, toStack in instructions:
@@ -41,7 +39,7 @@ for num, fromStack, toStack in instructions:
 print(''.join([list(v[-1])[1] for _, v in stacks.items()])) # SHMSDGZVC
 
 # part 2
-stacks, instructions = read_from_csv(my_input_path)
+stacks, instructions = read_input()
 
 for num, fromStack, toStack in instructions:
     elements = stacks[fromStack][-num:]

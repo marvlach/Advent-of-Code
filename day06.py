@@ -1,17 +1,14 @@
-import os
-import re
+from input import input
 
-my_input_path = os.path.join(os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__))), 'data.txt')
 
-def read_from_csv(my_input_path: str) -> list[str]:
+def read_input() -> list[str]:
 
-    
-    with open(my_input_path) as file:
-        lines = [line.rstrip() for line in file ]
-    return list(lines[0])
+    for line in input():
+        pass
+    return list(line)
 
 # given
-characters = read_from_csv(my_input_path)
+characters = read_input()
 
 def find_start_of(l: list[str], h: int,) -> int:
     ret = 0

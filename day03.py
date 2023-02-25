@@ -1,22 +1,18 @@
-import os
 import string
-my_input_path = os.path.join(os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__))), 'data.txt')
+from input import input
 
-def read_from_csv(my_input_path: str) -> list[list[int]]:
+def read_input() -> list[list[int]]:
 
     rucksack = []
     
-    with open(my_input_path) as file:
-        lines = [line.rstrip() for line in file ]
-
-    for line in lines:
+    for line in input():
         c = list(line)
         # d = { 'c1': c[:len(c)//2], 'c2': c[len(c)//2:]}
         rucksack.append(c)
     return rucksack
 
 # given
-racksack = read_from_csv(my_input_path)
+racksack = read_input()
 
 priority = list(string.ascii_lowercase + string.ascii_uppercase)
 
