@@ -1,5 +1,7 @@
 from input import input
 import re
+import itertools
+import functools
 
 
 def read_input():
@@ -44,14 +46,34 @@ ivalve = {v: i for i, v in enumerate(valve)}
 
 
 # F(s, t, S) = max{s'}[f(s') * (t - d(s, s') - 1) + F(s', t - d(s, s') - 1, S - {s'})]
-def max_value(time_left: int, current: str, valves_left_to_open: set[str]):
+@functools.cache
+def max_value(t: int, s: str, S: set[str]):
     value_to_open_valve = [
-        rates[ivalve[v]] * (time_left - dist[ivalve[current]][ivalve[v]] - 1)
-        + max_value(time_left - dist[ivalve[current]][ivalve[v]] - 1, v, valves_left_to_open - {v})
-        for v in valves_left_to_open
-        if dist[ivalve[current]][ivalve[v]] < time_left
+        rates[ivalve[v]] * (t - dist[ivalve[s]][ivalve[v]] - 1)
+        + max_value(t - dist[ivalve[s]][ivalve[v]] - 1, v, S - {v})
+        for v in S
+        if dist[ivalve[s]][ivalve[v]] < t
     ]
     return max(value_to_open_valve) if value_to_open_valve else 0
 
 
-print(max_value(30, "AA", {v for v in set(valve) if rates[ivalve[v]] > 0}))  # 2250
+non_zero_flow_valves = {v for v in set(valve) if rates[ivalve[v]] > 0}
+
+# part 1
+print(max_value(30, "AA", frozenset(non_zero_flow_valves)))  # 2250
+
+
+# part 2: assume all valves will be opened
+def powerset(iterable):
+    s = list(iterable)
+    return itertools.chain.from_iterable(itertools.combinations(s, r) for r in range(len(s) + 1))
+
+
+memo_set_values: dict[frozenset, int] = {}
+for ps in powerset(non_zero_flow_valves):
+    set_of_valves = frozenset(ps)
+    memo_set_values[set_of_valves] = max_value(26, "AA", set_of_valves)
+
+# player_1 opens k valves, achieving v == memo_set_values[k]
+# player_2 opens the rest S - k valves, achieving memo_set_values[frozenset(non_zero_flow_valves - k)] independently
+print(max([v + memo_set_values[frozenset(non_zero_flow_valves - k)] for k, v in memo_set_values.items()]))  # 3015
