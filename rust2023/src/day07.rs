@@ -1,8 +1,4 @@
-use std::{
-    cmp::Ordering,
-    collections::HashMap,
-    iter::zip,
-};
+use std::{cmp::Ordering, collections::HashMap, iter::zip};
 use Ordering::{Equal, Greater, Less};
 
 #[derive(Debug, Eq, PartialEq, Hash)]
