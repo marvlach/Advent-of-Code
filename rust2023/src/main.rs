@@ -1,9 +1,9 @@
 #![allow(dead_code)]
 
 mod utils;
-mod day10;
+mod day11;
 fn main() {
     let input = std::fs::read_to_string("./input.txt").unwrap();
-    day10::part1(&input);
-    day10::part2(&input);
+    day11::part1(&input);
+    day11::part2(&input);
 }
