@@ -1,4 +1,4 @@
-use std::{collections::HashSet, vec};
+use std::collections::HashSet;
 
 #[derive(Debug, Hash, Eq, PartialEq, Clone, Copy)]
 enum Direction {
@@ -9,21 +9,21 @@ enum Direction {
 }
 
 impl Direction {
-    fn can_go(&self, pos: (usize, usize), n_rows: usize, n_cols: usize) -> bool {
+    fn can_go(&self, (x, y): (usize, usize), n_rows: usize, n_cols: usize) -> bool {
         match self {
-            Direction::Right => pos.1 < n_cols - 1,
-            Direction::Left => pos.1 > 0,
-            Direction::Up => pos.0 > 0,
-            Direction::Down => pos.0 < n_rows - 1,
+            Direction::Right => y < n_cols - 1,
+            Direction::Left => y > 0,
+            Direction::Up => x > 0,
+            Direction::Down => x < n_rows - 1,
         }
     }
 
-    fn next_pos(&self, pos: (usize, usize)) -> (usize, usize) {
+    fn next_pos(&self, (x, y): (usize, usize)) -> (usize, usize) {
         match self {
-            Direction::Right => (pos.0, pos.1 + 1),
-            Direction::Left => (pos.0, pos.1 - 1),
-            Direction::Up => (pos.0 - 1, pos.1),
-            Direction::Down => (pos.0 + 1, pos.1),
+            Direction::Right => (x, y + 1),
+            Direction::Left => (x, y - 1),
+            Direction::Up => (x - 1, y),
+            Direction::Down => (x + 1, y),
         }
     }
 }
@@ -67,18 +67,18 @@ impl Mirror {
 fn parse_input(input: &str) -> Vec<Vec<Mirror>> {
     let mut floor = vec![];
     for line in input.lines() {
-        let v: Vec<Mirror> = line
-            .chars()
-            .map(|c| match c {
-                '.' => Mirror::Empty,
-                '/' => Mirror::FrontSlash,
-                '\\' => Mirror::BackSlash,
-                '|' => Mirror::Vertical,
-                '-' => Mirror::Horizontal,
-                _ => panic!(),
-            })
-            .collect();
-        floor.push(v);
+        floor.push(
+            line.chars()
+                .map(|c| match c {
+                    '.' => Mirror::Empty,
+                    '/' => Mirror::FrontSlash,
+                    '\\' => Mirror::BackSlash,
+                    '|' => Mirror::Vertical,
+                    '-' => Mirror::Horizontal,
+                    _ => panic!(),
+                })
+                .collect(),
+        );
     }
     floor
 }
@@ -116,10 +116,13 @@ fn run(floor: &Vec<Vec<Mirror>>, start_pos: (usize, usize), start_dir: Direction
     dfs(&floor, start_pos, start_dir, &mut visited);
     visited
         .iter()
-        .fold(HashSet::new(), |mut acc: HashSet<(usize, usize)>, x| {
-            acc.insert(x.0);
-            acc
-        })
+        .fold(
+            HashSet::new(),
+            |mut acc: HashSet<(usize, usize)>, (pos, _)| {
+                acc.insert(*pos);
+                acc
+            },
+        )
         .len()
 }
 
@@ -142,6 +145,10 @@ pub fn part2(input: &str) {
         starts.push(((0, j), Direction::Down));
         starts.push(((floor.len() - 1, j), Direction::Up));
     }
-    let ans = starts.iter().map(|s| run(&floor, s.0, s.1)).max().unwrap();
+    let ans = starts
+        .iter()
+        .map(|(pos, dir)| run(&floor, *pos, *dir))
+        .max()
+        .unwrap();
     println!("{:?}", ans);
 }
