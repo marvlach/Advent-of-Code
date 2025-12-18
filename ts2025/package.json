@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run build && node build/day08.js"
+    "start": "npm run build && node build/day10.js"
   },
   "author": "",
   "license": "ISC",
